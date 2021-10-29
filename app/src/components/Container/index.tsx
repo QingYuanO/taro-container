@@ -10,12 +10,9 @@ import React, {
   isValidElement,
   ReactElement,
 } from "react";
-
 import { createSelectorQuery } from "@tarojs/taro";
 import { useDidShow } from "@tarojs/taro";
-
 import "./index.less";
-
 import { useNavBarHeight, useScreenLayout, useSafeArea } from "./hooks";
 
 interface ContainerChildren {
@@ -72,23 +69,20 @@ function Container({
   const [footerBarHeight, setFooterBarHeight] = useState(0);
   const { safeBottom } = useSafeArea();
   const navBarHeight = useNavBarHeight();
-  const router = useRouter();
   useEffect(() => {
-    eventCenter.once(router.onReady, () => {
-      Taro.nextTick(() => {
-        createSelectorQuery()
-          .select("#footerBarNode")
-          .boundingClientRect((res) => {
-            // console.log(res);
-            if (res?.height) {
-              setFooterBarHeight(res?.height);
-              onFooterBarRenderAfter?.(res);
-            }
-          })
-          .exec();
-      });
+    Taro.nextTick(() => {
+      createSelectorQuery()
+        .select("#footerBarNode")
+        .boundingClientRect((res) => {
+          // console.log(res);
+          if (res?.height) {
+            setFooterBarHeight(res?.height);
+            onFooterBarRenderAfter?.(res);
+          }
+        })
+        .exec();
     });
-  }, []);
+  }, [footerBar,onFooterBarRenderAfter]);
   return (
     <View {...otherViewProps}>
       {navbar}
@@ -108,7 +102,6 @@ function Container({
           {content}
         </View>
       )}
-
       {other}
       {footerBar}
     </View>
@@ -133,7 +126,7 @@ namespace Container {
     titleColor = "#000",
     bgColor = "#fff",
     back,
-    onBack=() => Taro.navigateBack()
+    onBack = () => Taro.navigateBack(),
   }: NavbarProps) {
     const { menuButtonBounding } = useScreenLayout();
     const navBarHeight = useNavBarHeight();
@@ -152,7 +145,11 @@ namespace Container {
       >
         <View className="navbar_content_wrap">
           {leftContent && <View className="left_operation">{leftContent}</View>}
-          {!leftContent && back && <View className="left_operation" onClick={onBack}>1</View>}
+          {!leftContent && back && (
+            <View className="left_operation" onClick={onBack}>
+              1
+            </View>
+          )}
           {children}
           {title && (
             <View className="title_wrap">
@@ -171,11 +168,11 @@ namespace Container {
   }
 
   export interface ContentProps extends ViewProps {
-    children?: ReactNode;
+    children?: ReactNode | null;
   }
   export function Content(props: ContentProps) {
-    const { children, ...viewProps } = props;
-    return children;
+    const { children } = props;
+    return <>{children}</>;
   }
 
   export interface FooterBarProps {
