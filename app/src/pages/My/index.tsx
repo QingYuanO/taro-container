@@ -1,33 +1,61 @@
 import { View, Text } from "@tarojs/components";
-import Container from "../../components/Container";
-import { Button, Cell, Popup } from "@taroify/core";
-import { Arrow, ArrowDown, Cross } from "@taroify/icons";
+import { Button, Cell, Dialog, Popup, Stepper } from "@taroify/core";
 import { useState } from "react";
-import CellGroup from "@taroify/core/cell/cell-group";
+import { Arrow, ArrowDown, ArrowRight, Cross } from "@taroify/icons";
+import Container from "../../components/Container";
+import { getCurrentInstance, useDidShow } from "@tarojs/taro";
+
+
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState<number | string>(0);
+  useDidShow(() => {
+    getCurrentInstance()
+      .page.getOpenerEventChannel()
+      .emit("acceptDataFromOpenedPage", { data: "test" });
+    getCurrentInstance()
+      .page.getOpenerEventChannel()
+      .once("test", (data) => {
+        console.log(data);
+      });
+  });
   return (
-    <Container className="index">
+    <View className="index">
       {/* <Container.Navbar title="test" /> */}
-      <Container.Content>
-
-          <Cell
-            title="单元格"
-            onClick={() => setIsOpen(true)}
-            rightIcon={<Arrow />}
-            clickable
-            bordered
-          />
-
-      </Container.Content>
-      <Popup open={isOpen} placement="bottom" style={{ height: "30%" }}>
+      <View>
+        <Cell
+          title="单元格"
+          onClick={() => setIsOpen(true)}
+          rightIcon={<Arrow />}
+          clickable
+        />
+        <Cell title="单元格">内容</Cell>
+        <Cell title="单元格" brief="描述信息">
+          <Stepper value={value} onChange={setValue} />
+        </Cell>
+        <Dialog id="dialog" />
+        <Cell
+          title="提示弹窗"
+          clickable
+          bordered
+          rightIcon={<ArrowRight />}
+          onClick={() => Dialog.alert("提示")}
+        />
+      </View>
+      <Popup
+        open={isOpen}
+        placement="bottom"
+        style={{ height: "30%" }}
+        onClose={() => setIsOpen(false)}
+      >
         <Popup.Backdrop closeable />
         <Popup.Close>
-          <Cross onClick={() => setIsOpen(false)} />
+          {/* <Cross onClick={() => setIsOpen(false)} /> */}
         </Popup.Close>
         1
       </Popup>
-    </Container>
+      <Dialog />
+    </View>
   );
 };
 

@@ -19,15 +19,6 @@
       transform: translateY(-50%);
       display: flex;
       align-items: center;
-      .cusBack {
-        width: 96px;
-        height: 64px;
-      }
-
-      .navbar_back_arrow {
-        width: 19px;
-        height: 34px;
-      }
     }
     .title_wrap {
       width: 100%;
@@ -48,3 +39,7 @@
   box-sizing: border-box;
 }
 
+.safe_bottom {
+  padding-bottom: constant(safe-area-inset-bottom); /*兼容 IOS<11.2*/
+  padding-bottom: env(safe-area-inset-bottom); /*兼容 IOS>11.2*/
+}

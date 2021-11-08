@@ -1,8 +1,7 @@
-import { View, Text, Image } from "@tarojs/components";
+import { View, Text, Image, Icon } from "@tarojs/components";
 import { ViewProps } from "@tarojs/components/types/View";
-import Taro, { eventCenter, NodesRef, useRouter } from "@tarojs/taro";
+import Taro, { NodesRef } from "@tarojs/taro";
 import React, {
-  CSSProperties,
   ReactNode,
   useEffect,
   useState,
@@ -13,7 +12,12 @@ import React, {
 import { createSelectorQuery } from "@tarojs/taro";
 import { useDidShow } from "@tarojs/taro";
 import "./index.less";
-import { useNavBarHeight, useScreenLayout, useSafeArea } from "./hooks";
+import {
+  useNavBarHeight,
+  useScreenLayout,
+  useSafeArea,
+  useIsIPhoneX,
+} from "./hooks";
 
 interface ContainerChildren {
   navbar?: ReactNode;
@@ -54,15 +58,11 @@ interface ContainerProps {
   children?: ReactNode;
   hasNavBarTop?: boolean;
   hasFooterBarBottom?: boolean;
-  onFooterBarRenderAfter?: (
-    dom: NodesRef.BoundingClientRectCallbackResult
-  ) => void;
 }
 function Container({
   children,
   hasNavBarTop = true,
   hasFooterBarBottom = true,
-  onFooterBarRenderAfter,
   ...otherViewProps
 }: ContainerProps & ViewProps) {
   const { navbar, content, footerBar, other } = findContainerChildren(children);
@@ -77,12 +77,11 @@ function Container({
           // console.log(res);
           if (res?.height) {
             setFooterBarHeight(res?.height);
-            onFooterBarRenderAfter?.(res);
           }
         })
         .exec();
     });
-  }, [footerBar,onFooterBarRenderAfter]);
+  }, [footerBar]);
   return (
     <View {...otherViewProps}>
       {navbar}
@@ -115,7 +114,6 @@ namespace Container {
     title?: string;
     back?: boolean;
     onBack?: () => void;
-    leftBackIconColor?: string;
     titleColor?: string;
     bgColor?: string;
   }
@@ -143,26 +141,34 @@ namespace Container {
           backgroundColor: bgColor,
         }}
       >
-        <View className="navbar_content_wrap">
-          {leftContent && <View className="left_operation">{leftContent}</View>}
-          {!leftContent && back && (
-            <View className="left_operation" onClick={onBack}>
-              1
-            </View>
-          )}
-          {children}
-          {title && (
-            <View className="title_wrap">
-              <Text
-                style={{
-                  color: titleColor,
-                }}
-              >
-                {title}
-              </Text>
-            </View>
-          )}
-        </View>
+        {children ? (
+          children
+        ) : (
+          <View className="navbar_content_wrap">
+            {leftContent ? (
+              <View className="left_operation">{leftContent}</View>
+            ) : (
+              <>
+                {back && (
+                  <View className="left_operation" onClick={onBack}>
+                    <Icon type="clear" />
+                  </View>
+                )}
+              </>
+            )}
+            {title && (
+              <View className="title_wrap">
+                <Text
+                  style={{
+                    color: titleColor,
+                  }}
+                >
+                  {title}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
       </View>
     );
   }
@@ -178,17 +184,41 @@ namespace Container {
   export interface FooterBarProps {
     children?: ReactNode;
     bgColor?: string;
+    onFooterBarRenderAfter?: (
+      dom: NodesRef.BoundingClientRectCallbackResult
+    ) => void;
   }
-  export function FooterBar({ children, bgColor = "#fff" }: FooterBarProps) {
-    const { safeBottom } = useSafeArea();
+  export function FooterBar({
+    children,
+    bgColor = "#fff",
+    onFooterBarRenderAfter,
+    ...viewProps
+  }: FooterBarProps & Omit<ViewProps,'style'> ) {
+    const isIPhone = useIsIPhoneX();
+    const {  className, id, ...otherViewProps } = viewProps;
+    useEffect(() => {
+      Taro.nextTick(() => {
+        createSelectorQuery()
+          .select("#footerBarNode")
+          .boundingClientRect((res) => {
+            console.log(res);
+            if (res?.height) {
+              onFooterBarRenderAfter?.(res);
+            }
+          })
+          .exec();
+      });
+    }, [onFooterBarRenderAfter]);
     return (
       <View
         id="footerBarNode"
-        className="footerBar_wrap"
+        className={`footerBar_wrap ${isIPhone ? "safe_bottom" : ""}  ${
+          className ?? ""
+        }`}
         style={{
-          paddingBottom: safeBottom,
           backgroundColor: bgColor,
         }}
+        {...otherViewProps}
       >
         {children}
       </View>
