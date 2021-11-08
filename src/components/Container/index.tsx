@@ -1,6 +1,6 @@
 import { View, Text, Image, Icon } from "@tarojs/components";
 import { ViewProps } from "@tarojs/components/types/View";
-import Taro, { NodesRef } from "@tarojs/taro";
+import Taro, { NodesRef,useDidShow ,createSelectorQuery} from "@tarojs/taro";
 import React, {
   ReactNode,
   useEffect,
@@ -9,8 +9,6 @@ import React, {
   isValidElement,
   ReactElement,
 } from "react";
-import { createSelectorQuery } from "@tarojs/taro";
-import { useDidShow } from "@tarojs/taro";
 import "./index.less";
 import {
   useNavBarHeight,
@@ -18,6 +16,22 @@ import {
   useSafeArea,
   useIsIPhoneX,
 } from "./hooks";
+
+export const getFooterBarRect: () => NodesRef.BoundingClientRectCallbackResult | null =
+  () => {
+    Taro.nextTick(() => {
+      createSelectorQuery()
+        .select("#taro-container__footerBarNode")
+        .boundingClientRect((res) => {
+          // console.log(res);
+          if (res?.height) {
+            return res;
+          }
+        })
+        .exec();
+    });
+    return null
+  };
 
 interface ContainerChildren {
   navbar?: ReactNode;
@@ -72,7 +86,7 @@ function Container({
   useEffect(() => {
     Taro.nextTick(() => {
       createSelectorQuery()
-        .select("#footerBarNode")
+        .select("#taro-container__footerBarNode")
         .boundingClientRect((res) => {
           // console.log(res);
           if (res?.height) {
@@ -87,7 +101,7 @@ function Container({
       {navbar}
       {content && (
         <View
-          id="contentNode"
+          id="taro-container__contentNode"
           style={{
             marginTop: navbar && hasNavBarTop ? navBarHeight : 0,
             marginBottom: hasFooterBarBottom
@@ -131,8 +145,8 @@ namespace Container {
     useDidShow(() => {});
     return (
       <View
-        id="navbarNode"
-        className="navbar_wrap"
+        id="taro-container__navbarNode"
+        className="taro-container__navbar_wrap"
         style={{
           height: navBarHeight,
           paddingTop: menuButtonBounding.top,
@@ -144,20 +158,25 @@ namespace Container {
         {children ? (
           children
         ) : (
-          <View className="navbar_content_wrap">
+          <View className="taro-container__navbar_content_wrap">
             {leftContent ? (
-              <View className="left_operation">{leftContent}</View>
+              <View className="taro-container__left_operation">
+                {leftContent}
+              </View>
             ) : (
               <>
                 {back && (
-                  <View className="left_operation" onClick={onBack}>
+                  <View
+                    className="taro-container__left_operation"
+                    onClick={onBack}
+                  >
                     <Icon type="clear" />
                   </View>
                 )}
               </>
             )}
             {title && (
-              <View className="title_wrap">
+              <View className="taro-container__title_wrap">
                 <Text
                   style={{
                     color: titleColor,
@@ -193,13 +212,13 @@ namespace Container {
     bgColor = "#fff",
     onFooterBarRenderAfter,
     ...viewProps
-  }: FooterBarProps & Omit<ViewProps,'style'> ) {
+  }: FooterBarProps & Omit<ViewProps, "style">) {
     const isIPhone = useIsIPhoneX();
-    const {  className, id, ...otherViewProps } = viewProps;
+    const { className, id, ...otherViewProps } = viewProps;
     useEffect(() => {
       Taro.nextTick(() => {
         createSelectorQuery()
-          .select("#footerBarNode")
+          .select("#taro-container__footerBarNode")
           .boundingClientRect((res) => {
             console.log(res);
             if (res?.height) {
@@ -211,10 +230,10 @@ namespace Container {
     }, [onFooterBarRenderAfter]);
     return (
       <View
-        id="footerBarNode"
-        className={`footerBar_wrap ${isIPhone ? "safe_bottom" : ""}  ${
-          className ?? ""
-        }`}
+        id="taro-container__footerBarNode"
+        className={`taro-container__footer_wrap ${
+          isIPhone ? "taro-container__safe_bottom" : ""
+        }  ${className ?? ""}`}
         style={{
           backgroundColor: bgColor,
         }}

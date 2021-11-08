@@ -1,4 +1,4 @@
-import Container from "./src/components/Container/index";
+import Container, { getFooterBarRect } from "./src/components/Container/index";
 import {
   useIsIPhoneX,
   useNavBarHeight,
@@ -6,5 +6,5 @@ import {
   useScreenLayout,
 } from "./src/components/Container/hooks";
 
-export { useIsIPhoneX, useNavBarHeight, useSafeArea, useScreenLayout };
+export { useIsIPhoneX, useNavBarHeight, useSafeArea, useScreenLayout,getFooterBarRect };
 export default Container;

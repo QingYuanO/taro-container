@@ -1,4 +1,5 @@
-.navbar_wrap {
+
+.taro-container__navbar_wrap {
   position: fixed;
   left: 0;
   top: 0;
@@ -6,13 +7,13 @@
   z-index: 800;
   display: flex;
   align-items: center;
-  .navbar_content_wrap {
+  .taro-container__navbar_content_wrap {
     display: flex;
     align-items: center;
     position: relative;
     width: 100%;
     height: 100%;
-    .left_operation {
+    .taro-container__left_operation {
       position: absolute;
       top: 50%;
       left: 12px;
@@ -20,7 +21,7 @@
       display: flex;
       align-items: center;
     }
-    .title_wrap {
+    .taro-container__title_wrap {
       width: 100%;
       display: flex;
       justify-content: center;
@@ -30,7 +31,7 @@
   }
 }
 
-.footerBar_wrap{
+.taro-container__footer_wrap{
   position: fixed;
   left: 0;
   bottom: 0;
@@ -39,7 +40,7 @@
   box-sizing: border-box;
 }
 
-.safe_bottom {
+.taro-container__safe_bottom {
   padding-bottom: constant(safe-area-inset-bottom); /*兼容 IOS<11.2*/
   padding-bottom: env(safe-area-inset-bottom); /*兼容 IOS>11.2*/
 }
