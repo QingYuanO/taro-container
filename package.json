@@ -1,12 +1,35 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "private": true,
-  "description": "taro-container的例子",
+  "private": false,
+  "description": "taro-container容器组件",
   "templateInfo": {
     "name": "default",
     "typescript": true,
     "css": "none"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "QingYuanO",
+  "license": "MIT",
+  "keywords": [
+    "taro3",
+    "container",
+    "react",
+    "ts"
+  ],
+  "main": "index.ts",
+  "files": [
+    "index.ts",
+    "index.d.ts",
+    "src/components/Container"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QingYuanO/taro-container.git"
   },
   "scripts": {
     "build:weapp": "taro build --type weapp",
@@ -28,17 +51,16 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch"
   },
-  "browserslist": [
-    "last 3 versions",
-    "Android >= 4.1",
-    "ios >= 8"
-  ],
-  "author": "",
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "@tarojs/react": "^3.3.0",
+    "@tarojs/runtime": "^3.3.0",
+    "@tarojs/taro": "^3.3.0",
+    "@babel/runtime": "^7.7.7"
+  },
   "dependencies": {
-    "@antmjs/vantui": "^1.1.0",
     "@babel/runtime": "^7.16.0",
-    "@taroify/core": "^0.0.17-alpha.1",
-    "@taroify/icons": "^0.0.17-alpha.1",
     "@tarojs/components": "3.3.12",
     "@tarojs/react": "3.3.12",
     "@tarojs/runtime": "3.3.12",
