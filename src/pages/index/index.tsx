@@ -1,6 +1,6 @@
 import { View, Text, Icon } from "@tarojs/components";
 import { getCurrentInstance, navigateTo } from "@tarojs/taro";
-import Container,{} from "taro-container";
+import Container from "../../components/Container";
 import "./index.css";
 
 
@@ -25,10 +25,10 @@ const Index = () => {
     }
   };
   return (
-    <Container className="index">
-      <Container.Navbar title="test" leftContent={<View style={{backgroundColor:'red',height:52}}>1</View>} />
+    <Container className="index" >
+      <Container.Navbar title="test" back  />
       <Container.Content>
-
+        <View onClick={test}>test</View>
       </Container.Content>
     </Container>
   );
