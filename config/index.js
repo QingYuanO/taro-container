@@ -1,5 +1,6 @@
 const config = {
-  projectName: "example",
+  compiler: 'webpack5',
+  projectName: "taro-container-example",
   date: "2021-9-26",
   designWidth: 750,
   deviceRatio: {
@@ -8,7 +9,7 @@ const config = {
     828: 1.81 / 2,
   },
   sourceRoot: "src",
-  outputRoot: "dist",
+  outputRoot: `dist/${process.env.TARO_ENV}`,
   plugins: [],
   defineConstants: {},
   copy: {

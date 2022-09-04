@@ -10,15 +10,4 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: "@taroify/core",
-        libraryDirectory: "",
-        style: true,
-      },
-      "@taroify/core",
-    ],
-  ],
 };

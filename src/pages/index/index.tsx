@@ -1,22 +1,21 @@
 import { View, Text, Icon } from "@tarojs/components";
 import { getCurrentInstance, navigateTo } from "@tarojs/taro";
 import Container from "../../components/Container";
+
 import "./index.css";
-
-
 
 const Index = () => {
   const test = async () => {
     try {
       navigateTo({
-        url: "/pages/my/index",
+        url: "/pages/testPage/index",
         events: {
           acceptDataFromOpenedPage(data) {
             console.log(data);
           },
         },
-        success(res){
-          res.eventChannel.emit('test',{a:1})
+        success(res) {
+          res.eventChannel.emit("test", { a: 1 });
         },
       });
       console.log(getCurrentInstance());
@@ -25,11 +24,12 @@ const Index = () => {
     }
   };
   return (
-    <Container className="index" >
-      <Container.Navbar title="test" back  />
+    <Container className="index">
+      <Container.Navbar title="首页" titleClassName="testTitle" />
       <Container.Content>
-        <View onClick={test}>test</View>
+        <View onClick={test}>test11</View>
       </Container.Content>
+
     </Container>
   );
 };
