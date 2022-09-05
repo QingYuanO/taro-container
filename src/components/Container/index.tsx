@@ -4,7 +4,7 @@ import "./index.less";
 import {
   findContainerChildren,
   getFooterRect,
-  getNavBarHeight,
+  getNavBarHeight
 } from "./helper";
 import { Content, Footer, Navbar } from "./components";
 import { ContainerProps } from "./types";
@@ -21,10 +21,10 @@ function Container({
   const hasContentMt = hasNavBarTop && navbar;
   const hasContentPb = hasFooterBottom && footer;
   useEffect(() => {
-    if (footer) {
+    if (hasContentPb) {
       getFooterRect(rect => setFooterHeight(rect?.height));
     }
-  }, [footer]);
+  }, [hasContentPb]);
 
   return (
     <View {...otherViewProps}>
