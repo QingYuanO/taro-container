@@ -1,7 +1,7 @@
 import { Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { Fragment } from "react";
-import { getNavBarHeight } from "../../helper";
+import { Fragment, useMemo } from "react";
+import { getNavBarHeight, getSystemInfo } from "../../helper";
 import { NavbarProps } from "../../types";
 import DefaultLeftIcon from "./defaultLeftIcon";
 import "./index.less";
@@ -14,10 +14,18 @@ export default function Navbar({
   bgColor = "#fff",
   defaultLeftIconSize = 24,
   defaultLeftColor = "rgb(51,51,51)",
-  hasSeat,
+  hasSeat
 }: NavbarProps) {
-  const menuButtonBounding = Taro.getMenuButtonBoundingClientRect();
   const navBarHeight = getNavBarHeight();
+  const navbarTop = useMemo(() => {
+    if (process.env.TARO_ENV === "weapp") {
+      const menuButtonBounding = Taro.getMenuButtonBoundingClientRect();
+      return menuButtonBounding.top;
+    }
+    if (process.env.TARO_ENV === "h5") {
+      return 5;
+    }
+  }, []);
   return (
     <Fragment>
       <View
@@ -25,9 +33,9 @@ export default function Navbar({
         className="taro-container__navbar-wrap"
         style={{
           height: navBarHeight,
-          paddingTop: menuButtonBounding.top,
+          paddingTop: navbarTop,
           paddingBottom: 5,
-          backgroundColor: bgColor,
+          backgroundColor: bgColor
         }}
       >
         {children ?? (

@@ -1,8 +1,7 @@
-import { View, Text } from "@tarojs/components";
-import { useDidShow } from "@tarojs/taro";
+import { View } from "@tarojs/components";
 import { useEffect, useRef } from "react";
 import Container from "../../components/Container";
-import { Footer, Navbar } from "../../components/Container/components";
+import { getNavBarHeight } from "../../components/Container/helper";
 import useObserver from "../../components/Container/hooks/useObserver";
 import { FooterRef } from "../../components/Container/types";
 
@@ -10,17 +9,17 @@ const TestPage = () => {
   const footerRef = useRef<FooterRef>();
   useEffect(() => {
     footerRef?.current?.getFooterRect((rect) => {
-      // console.log(rect);
+      console.log(rect);
     });
   }, [footerRef]);
-  const { show } = useObserver("testObserver1");
+  // const { show } = useObserver("testObserver1");
 
   // console.log('test1',test1);
   // console.log('test2',test2);
 
   return (
     <Container>
-      <Container.Navbar title={show ? "TestPage" : "haha"} />
+      <Container.Navbar title={true ? "TestPage" : "haha"} />
       <Container.Content>
         <View
           id="testObserver1"
@@ -34,7 +33,7 @@ const TestPage = () => {
             marginBottom: 20,
             backgroundColor: "deeppink",
             position: "sticky",
-            top: 61,
+            top: getNavBarHeight(),
           }}
         >
           testObserver2
@@ -56,20 +55,6 @@ const TestPage = () => {
         </View>
       </Container.Footer>
     </Container>
-    // <View>
-    //   <Navbar title="TestPage" hasSeat />
-    //   <View style={{ marginBottom: 20, backgroundColor: "pink" }}>test</View>
-    //   <View
-    //     style={{ height: 700, backgroundColor: "skyblue", marginBottom: 20 }}
-    //   >
-    //     TestPage
-    //   </View>
-    //   <Footer hasSeat>
-    //     <View style={{ backgroundColor: "red" }} className="test">
-    //       1
-    //     </View>
-    //   </Footer>
-    // </View>
   );
 };
 

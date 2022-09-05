@@ -5,7 +5,6 @@ import {
   findContainerChildren,
   getFooterRect,
   getNavBarHeight,
-  getSafeArea,
 } from "./helper";
 import { Content, Footer, Navbar } from "./components";
 import { ContainerProps } from "./types";
@@ -18,10 +17,13 @@ function Container({
 }: ContainerProps) {
   const { navbar, content, footer, other } = findContainerChildren(children);
   const [footerHeight, setFooterHeight] = useState(0);
-  const { safeBottom } = getSafeArea();
   const navBarHeight = getNavBarHeight();
+  const hasContentMt = hasNavBarTop && navbar;
+  const hasContentPb = hasFooterBottom && footer;
   useEffect(() => {
-    getFooterRect((rect) => setFooterHeight(rect?.height));
+    if (footer) {
+      getFooterRect(rect => setFooterHeight(rect?.height));
+    }
   }, [footer]);
 
   return (
@@ -30,15 +32,12 @@ function Container({
       {content && (
         <View
           id="taroContainerContent"
+          className={hasFooterBottom ? "taro-container__safe-bottom" : ""}
           style={{
-            marginTop: navbar && hasNavBarTop ? navBarHeight : 0,
-            paddingBottom: hasFooterBottom
-              ? footer
-                ? footerHeight
-                : safeBottom
-              : 0,
+            ...(hasContentMt ? { marginTop: navBarHeight } : {}),
+            ...(hasContentPb ? { paddingBottom: footerHeight } : {}),
             position: "relative",
-            boxSizing: "border-box",
+            boxSizing: "border-box"
           }}
         >
           {content}

@@ -3,40 +3,29 @@ import {
   isValidElement,
   ReactElement,
   ReactNode,
-  useMemo,
 } from "react";
 import {
   createSelectorQuery,
   getMenuButtonBoundingClientRect,
   getSystemInfoSync,
   nextTick,
-  NodesRef,
+  NodesRef
 } from "@tarojs/taro";
 import Container from "..";
 import { ContainerChildren } from "../types";
 
 const globalSystemInfo = getSystemInfoSync();
-const getSystemInfo = () => {
+export const getSystemInfo = () => {
   return globalSystemInfo ?? getSystemInfoSync();
 };
 
 export const getNavBarHeight = () => {
-  const menuButtonBounding = getMenuButtonBoundingClientRect();
-  const height = menuButtonBounding.top + menuButtonBounding.height + 5;
-  return height;
+  if (process.env.TARO_ENV === "weapp") {
+    const menuButtonBounding = getMenuButtonBoundingClientRect();
+    return menuButtonBounding.top + menuButtonBounding.height + 5;
+  }
+  return 42;
 };
-// export const useScreenLayout = () => {
-//   const screenLayout = useMemo(() => {
-//     const systemInfo = getSystemInfo();
-//     //胶囊布局信息
-//     const menuButtonBounding = getMenuButtonBoundingClientRect();
-//     return {
-//       menuButtonBounding,
-//       ...systemInfo,
-//     };
-//   }, []);
-//   return screenLayout;
-// };
 export const getSafeArea = () => {
   const systemInfo = getSystemInfo();
   const safeBottom =
@@ -46,7 +35,7 @@ export const getSafeArea = () => {
   return {
     safeBottom,
     safeTop,
-    safeHeight,
+    safeHeight
   };
 };
 export const isIPhoneX = () => {
@@ -60,7 +49,7 @@ export const getFooterRect = (
   nextTick(() => {
     createSelectorQuery()
       .select("#taroContainerFooter")
-      .boundingClientRect((res) => {
+      .boundingClientRect(res => {
         if (res?.height) {
           callback?.(res);
         }
@@ -74,7 +63,7 @@ export function findContainerChildren(node?: ReactNode): ContainerChildren {
     navbar: undefined,
     footer: undefined,
     content: undefined,
-    other: [],
+    other: []
   };
 
   Children.forEach(node, (child: ReactNode) => {
@@ -96,3 +85,21 @@ export function findContainerChildren(node?: ReactNode): ContainerChildren {
 
   return children;
 }
+
+/**
+ * 统一路由路径格式
+ * @param path 路由路径
+ */
+export const formattedRoutePath = (path: string) => {
+  if (!path) {
+    return path;
+  }
+  let formattedPath = path.split("?")[0];
+  const firstChar = path.charAt(0);
+
+  if (firstChar !== "/") {
+    formattedPath = `/${path}`;
+  }
+
+  return formattedPath;
+};

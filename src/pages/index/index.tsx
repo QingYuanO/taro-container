@@ -14,11 +14,10 @@ const Index = () => {
             console.log(data);
           },
         },
-        success(res) {
-          res.eventChannel.emit("test", { a: 1 });
-        },
+        // success(res) {
+        //   res.eventChannel.emit("test", { a: 1 });
+        // },
       });
-      console.log(getCurrentInstance());
     } catch (error) {
       console.log(error);
     }
