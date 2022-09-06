@@ -1,6 +1,7 @@
 import { View, Text, Icon } from "@tarojs/components";
 import { getCurrentInstance, navigateTo } from "@tarojs/taro";
-import Container from "../../components/Container";
+import Container from "taro-container";
+
 
 import "./index.css";
 

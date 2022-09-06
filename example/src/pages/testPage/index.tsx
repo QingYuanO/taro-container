@@ -1,14 +1,12 @@
 import { View } from "@tarojs/components";
 import { useEffect, useRef } from "react";
-import Container from "../../components/Container";
-import { getNavBarHeight } from "../../components/Container/helper";
-import useObserver from "../../components/Container/hooks/useObserver";
-import { FooterRef } from "../../components/Container/types";
+import Container, { getNavBarHeight } from "taro-container";
+import { FooterRef } from "taro-container/dist/esm/Container/types";
 
 const TestPage = () => {
   const footerRef = useRef<FooterRef>();
   useEffect(() => {
-    footerRef?.current?.getFooterRect((rect) => {
+    footerRef?.current?.getFooterRect(rect => {
       console.log(rect);
     });
   }, [footerRef]);
@@ -33,7 +31,7 @@ const TestPage = () => {
             marginBottom: 20,
             backgroundColor: "deeppink",
             position: "sticky",
-            top: getNavBarHeight(),
+            top: getNavBarHeight()
           }}
         >
           testObserver2
@@ -46,7 +44,7 @@ const TestPage = () => {
       </Container.Content>
       <Container.Footer
         ref={footerRef}
-        onFooterRenderAfter={(res) => {
+        onFooterRenderAfter={res => {
           // console.log(res);
         }}
       >

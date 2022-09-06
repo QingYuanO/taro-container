@@ -1,6 +1,6 @@
 import Taro, { useReady, useUnload } from "@tarojs/taro";
 import { useMemo, useCallback, useEffect, useState, useRef } from "react";
-import { getNavBarHeight } from "../helper";
+import { getNavBarHeight } from "../components/Container/helper";
 
 /**
  * 观察一个元素是否从顶部移出可视界面

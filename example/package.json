@@ -1,6 +1,5 @@
 {
-  "name": "taro-container",
-  "version": "0.0.2",
+  "name": "taro-container-example",
   "private": false,
   "description": "taro-container容器组件",
   "templateInfo": {
@@ -15,21 +14,6 @@
   ],
   "author": "QingYuanO",
   "license": "MIT",
-  "keywords": [
-    "taro3",
-    "container",
-    "react",
-    "ts"
-  ],
-  "main": "index.ts",
-  "files": [
-    "index.ts",
-    "src/components/Container"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/QingYuanO/taro-container.git"
-  },
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
@@ -49,12 +33,6 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch"
-  },
-  "peerDependencies": {
-    "@tarojs/components": "^3.5.0",
-    "@tarojs/taro": "^3.5.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",

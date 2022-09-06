@@ -1,0 +1,48 @@
+{
+  "name": "taro-container",
+  "version": "0.0.3",
+  "description": "taro-container容器组件",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "dev": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [
+    "taro3",
+    "container",
+    "react",
+    "ts"
+  ],
+  "authors": [
+    "QingYuanO"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QingYuanO/taro-container.git"
+  },
+  "peerDependencies": {
+    "@tarojs/components": "^3.5.0",
+    "@tarojs/taro": "^3.5.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@tarojs/components": "^3.5.5",
+    "@tarojs/taro": "^3.5.5",
+    "@types/react": "^18.0.18",
+    "father": "^4.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

@@ -1,6 +1,10 @@
-dist/
-deploy_versions/
-.temp/
-.rn_temp/
-node_modules/
-.DS_Store
+example/dist/
+example/deploy_versions/
+example/.temp/
+example/.rn_temp/
+example/node_modules/
+example/.DS_Store
+
+package/node_modules
+package/dist
+package/.DS_Store
